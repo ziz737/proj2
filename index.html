@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>تقويم الطوالع والأنواء</title>
+    <meta name="description" content="موقع تفاعلي لعرض الطوالع الحالية، العد التنازلي للمواسم، ومعلومات شاملة عن الـ 28 طالعاً.">
+    <meta name="theme-color" content="#0d1117">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="الأنواء">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="الأنواء">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="apple-touch-icon" href="icon-180.png">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Ambient background -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="stars"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="header-title-block">
+                <h1 class="app-title">تقويم الفصول و الأنواء</h1>
+                <p class="app-subtitle">برمجة عبدالعزيز الحودي &nbsp;·&nbsp; ziz737@gmail.com</p>
+                <p class="app-tagline">(موقع تجريبي غير رسمي)</p>
+                <button class="install-btn" id="install-btn" hidden>📲 تثبيت التطبيق</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Pages -->
+    <main class="app-main">
+
+        <!-- PAGE 1: Dashboard -->
+        <section class="page active" id="page-home">
+
+            <!-- Live Clock Window -->
+            <div class="live-clock-card glass-block">
+                <div class="lcc-day" id="live-day-name">--</div>
+                <div class="lcc-date" id="live-date">--</div>
+                <div class="lcc-time" id="live-time">-- : -- : --</div>
+            </div>
+
+            <!-- Live top row -->
+            <div class="live-row">
+                <div class="live-card weather-live-card" id="weather-live-card">
+                    <div class="live-card-label"><span class="lc-icon">📍</span><span id="location-name">جاري التحديد...</span></div>
+                    <div class="weather-main-row">
+                        <span id="weather-icon-live" class="weather-big-icon">🌡</span>
+                        <div class="temp-big"><span id="current-temp-live">--</span><span class="temp-unit">°م</span></div>
+                    </div>
+                    <div class="weather-sub-row">
+                        <span>💧 <span id="rain-live">--</span></span>
+                        <span>💨 <span id="wind-live">--</span></span>
+                    </div>
+                </div>
+
+                <div class="live-card qibla-live-card" id="qibla-card" onclick="enableDynamicCompass()">
+                    <div class="live-card-label"><span class="lc-icon">🕋</span><span id="qibla-card-label">اتجاه القبلة</span></div>
+                    <div class="qibla-compass-wrap">
+                        <div class="qibla-compass" id="qibla-compass">
+                            <div class="compass-face">
+                                <span class="cd n">N</span>
+                                <span class="cd e">E</span>
+                                <span class="cd s">S</span>
+                                <span class="cd w">W</span>
+                                <div class="compass-needle" id="qibla-direction">
+                                    <div class="needle-tip"></div>
+                                    <div class="needle-tail"></div>
+                                </div>
+                                <div class="compass-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qibla-angle-label">
+                        <span id="qibla-angle">--</span>
+                        <span id="qibla-hint" class="qibla-tap-hint">اضغط للتفعيل الحي</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Season block -->
+            <div class="season-block glass-block">
+                <div class="season-label-row">
+                    <h2 class="season-title" id="current-season-heading">جاري التحميل...</h2>
+                </div>
+                <div class="prog-wrap">
+                    <div class="prog-track"><div class="prog-fill" id="season-progress"></div></div>
+                    <div class="prog-meta">
+                        <div class="pm-group">
+                            <span class="pm-date" id="season-start-date">--</span>
+                            <span class="pm-sub" id="season-days-passed">0 يوم مضى</span>
+                        </div>
+                        <div class="pm-group pm-end">
+                            <span class="pm-date" id="season-end-date">--</span>
+                            <span class="pm-sub" id="season-days-remaining">0 يوم باقٍ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tali block -->
+            <div class="tali-block glass-block">
+                <div class="tali-star-deco">✦</div>
+                <h3 class="tali-title" id="current-tali-name">جاري التحميل...</h3>
+                <div class="prog-wrap">
+                    <div class="prog-track"><div class="prog-fill tali-fill" id="tali-progress"></div></div>
+                    <div class="prog-meta">
+                        <div class="pm-group">
+                            <span class="pm-date" id="tali-start-date">--</span>
+                            <span class="pm-sub" id="days-passed">0 يوم مضى</span>
+                        </div>
+                        <div class="pm-group pm-end">
+                            <span class="pm-date" id="tali-end-date">--</span>
+                            <span class="pm-sub" id="days-remaining">0 يوم باقٍ</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tali-meta-row">
+                    <div class="tali-meta-item">
+                        <span class="tmi-label">🌡 الحرارة</span>
+                        <span class="tmi-value" id="tali-temp">--</span>
+                    </div>
+                    <div class="tali-meta-item">
+                        <span class="tmi-label">⭐ النجم العربي</span>
+                        <span class="tmi-value" id="tali-arabic">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather & Agri cards -->
+            <div class="info-duo">
+                <div class="info-block weather-info glass-block">
+                    <div class="ib-header">⛅ أحوال الطقس والظواهر</div>
+                    <p id="weather-text" class="ib-body">جاري التحميل...</p>
+                </div>
+                <div class="info-block agri-info glass-block">
+                    <div class="ib-header">🌱 الدليل الزراعي</div>
+                    <p id="agri-text" class="ib-body">جاري التحميل...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: Full List -->
+        <section class="page" id="page-list">
+            <div class="page-heading">
+                <h2>الطوالع الـ 28</h2>
+                <p>دليل كامل بجميع الطوالع والأنواء</p>
+            </div>
+            <div class="season-filter-tabs">
+                <button class="sf-tab" data-filter="الشتاء">❄️ شتاء</button>
+                <button class="sf-tab" data-filter="الربيع">🌸 ربيع</button>
+                <button class="sf-tab" data-filter="الصيف">☀️ صيف</button>
+                <button class="sf-tab" data-filter="الخريف">🍂 خريف</button>
+            </div>
+            <div id="tawale-list" class="tawale-grid"></div>
+        </section>
+
+        <!-- PAGE 3: Prayer Times -->
+        <section class="page" id="page-prayer">
+            <div class="page-heading">
+                <h2>مواقيت الصلاة</h2>
+                <p id="prayer-city-display">بناءً على موقعك الحالي - تقويم أم القرى</p>
+            </div>
+
+            <!-- Next Prayer Card -->
+            <div class="next-prayer-card glass-block">
+                <div class="npc-label">الصلاة القادمة</div>
+                <div class="npc-name" id="next-prayer-name">--</div>
+                <div class="npc-countdown" id="next-prayer-countdown">-- : -- : --</div>
+                <div class="npc-time" id="next-prayer-time">--:--</div>
+                <div class="npc-elapsed" id="current-prayer-elapsed" hidden></div>
+            </div>
+
+            <!-- Prayer List -->
+            <div class="prayer-list-wrapper glass-block">
+                <div id="prayer-times-list" class="prayer-times-list">
+                    <!-- Loaded via JS -->
+                    <div class="prayer-row-loading">جاري تحميل المواقيت...</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PAGE 4: Academic Calendar -->
+        <section class="page" id="page-academic">
+            <div class="page-heading">
+                <h2>التقويم الدراسي السعودي</h2>
+                <p>متابعة العام الدراسي والإجازات الرسمية 1448هـ</p>
+            </div>
+
+            <!-- Main Progress -->
+            <div class="academic-progress-card glass-block">
+                <div class="apc-header">
+                    <span class="apc-title">تقدم العام الدراسي</span>
+                    <span class="apc-percentage" id="academic-progress-val">0%</span>
+                </div>
+                <div class="prog-track">
+                    <div class="prog-fill" id="academic-progress-bar"></div>
+                </div>
+                <div class="apc-footer" id="academic-days-text">جاري الحساب...</div>
+            </div>
+
+            <!-- Next Event Hero -->
+            <div class="academic-hero glass-block">
+                <div class="ah-label" id="academic-next-title">الحدث القادم</div>
+                <div class="ah-sub" id="academic-next-date">---</div>
+                <div class="ah-countdown">
+                    <div class="ah-cd-item">
+                        <span class="ah-cd-val" id="academic-days">00</span>
+                        <span class="ah-cd-label">يوم</span>
+                    </div>
+                    <div class="ah-cd-sep">:</div>
+                    <div class="ah-cd-item">
+                        <span class="ah-cd-val" id="academic-hours">00</span>
+                        <span class="ah-cd-label">ساعة</span>
+                    </div>
+                    <div class="ah-cd-sep">:</div>
+                    <div class="ah-cd-item">
+                        <span class="ah-cd-val" id="academic-minutes">00</span>
+                        <span class="ah-cd-label">دقيقة</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Agenda -->
+            <div class="academic-agenda" id="academic-agenda-container">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <button class="bnav-btn active" data-page="page-home">
+            <span class="bnav-icon">🏠</span>
+            <span class="bnav-label">الرئيسية</span>
+        </button>
+        <button class="bnav-btn" data-page="page-list">
+            <span class="bnav-icon">📋</span>
+            <span class="bnav-label">الطوالع</span>
+        </button>
+        <button class="bnav-btn" data-page="page-prayer">
+            <span class="bnav-icon">🕌</span>
+            <span class="bnav-label">المواقيت</span>
+        </button>
+        <button class="bnav-btn" data-page="page-academic">
+            <span class="bnav-icon">🎓</span>
+            <span class="bnav-label">الدراسة</span>
+        </button>
+    </nav>
+
+    <div class="install-sheet" id="install-sheet" hidden>
+        <div class="install-card glass-block">
+            <div class="install-title" id="install-title">📲 إضافة التطبيق</div>
+            <div class="install-body" id="install-body"></div>
+            <div class="install-actions">
+                <button class="install-primary" id="install-primary">تثبيت</button>
+                <button class="install-close" id="install-close">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="install-sheet" id="city-picker" hidden>
+        <div class="install-card glass-block">
+            <div class="install-title">📍 اختر مدينتك</div>
+            <button type="button" class="city-option gps" id="city-picker-gps">🛰️ استخدام موقعي الحالي (GPS)</button>
+            <div id="city-list" class="city-grid"></div>
+            <div class="install-actions">
+                <button class="install-close" id="city-picker-close">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
